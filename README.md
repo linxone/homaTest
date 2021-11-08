@@ -1,10 +1,10 @@
 This repo is a simple test based on HomaModule.
 
-##### Requirements
+#### Requirements
 
 HomaModule
 
-##### Run it
+#### Run it
 
 1. Insert Homa kernel module
 
