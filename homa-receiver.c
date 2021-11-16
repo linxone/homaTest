@@ -23,14 +23,14 @@
 #include <sys/syscall.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#define MSGLEN 1024
+#include <pthread.h>
 
 int main()
 {
     int fd;
     fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_HOMA);
     if (fd < 0) {
-        printf("Create homa socket failed");
+        printf("Create homa socket failed!");
         return -1;
     }
 
@@ -47,30 +47,21 @@ int main()
     }
 
     char buf[HOMA_MAX_MESSAGE_LENGTH];
-    char grant[5] = {'0'};
     struct sockaddr_in src;
     size_t src_len = sizeof(src);
-    int len, res;
+    int len;
 
     while (1) {
         
-	    uint64_t id = 0;
-        len = homa_recv(fd, buf, HOMA_MAX_MESSAGE_LENGTH, HOMA_RECV_REQUEST, 
+        uint64_t id = 0;
+        len = homa_recv(fd, buf, 1000000, HOMA_RECV_REQUEST, 
                     (struct sockaddr *)&src, &src_len, &id, NULL);
         if (len < 0) {
             printf("Homa recv() failed!\n");
             return -1;
         }
-        // printf("Homa recv() succeed!\n");
-        // printf("SERVER buf-length: %d\n", len);
-
-        res = homa_reply(fd, grant, sizeof(grant), (struct sockaddr *)&src, src_len, id);
-        if (res < 0) {
-            printf("Homa reply() failed!\n");
-            return -1;
-        }
-        // printf("Homa reply() succeed!\n\n");
+        printf("SERVER: %d\n", len);
     }
-    
+
     return 0;
 }
