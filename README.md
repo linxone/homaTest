@@ -26,7 +26,3 @@ HomaModule
 
 
 
-
-
-p.s. Thanks for [SirHao](https://github.com/SirHao/HomaDemo)'s help !
-
