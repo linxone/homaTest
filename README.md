@@ -1,4 +1,4 @@
-This repo is a simple test based on HomaModule.
+This demo is a simple test based on HomaModule.
 
 #### Requirements
 
