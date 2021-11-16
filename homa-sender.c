@@ -1,5 +1,4 @@
 #include "homa.h"
-
 #include<stdio.h>
 #include <errno.h>
 #include <execinfo.h>
@@ -24,9 +23,10 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
-#define MSGLEN 1024
 
-int main()
+#define MSGLEN 10000
+
+int main(int argc, char *argv[])
 {
     int fd;
     fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_HOMA);
@@ -40,34 +40,18 @@ int main()
     bzero(&addr, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_addr.s_addr = inet_addr("10.0.0.33");    // server's id
+    size_t addr_len = sizeof(addr);
     
     char msg[HOMA_MAX_MESSAGE_LENGTH];
-    char buf[HOMA_MAX_MESSAGE_LENGTH];
-
-    int ret, len;
-    size_t addr_len = sizeof(addr);
+    int ret;
     uint64_t rpc_id;
-    
-    while (1) {
 
-        memset(msg, '0', MSGLEN);
-        ret = homa_send(fd, &msg, MSGLEN,(struct sockaddr*)&addr, addr_len, &rpc_id);
-        if (ret < 0) {
-            printf("Homa send() failed!");
-            return -1;
-        }
-        // printf("Homa send() succeed!\n");
-
-        len = homa_recv(fd, buf, HOMA_MAX_MESSAGE_LENGTH,
-                               HOMA_RECV_RESPONSE, (struct sockaddr *) &addr,
-                               &addr_len, &rpc_id, NULL);
-        if (len < 0) {
-            printf("Homa recv() grants failed!\n");
-            return -1;
-        }
-        // printf("Homa recv() succeed!\n\n");
-
+    memset(msg, '0', MSGLEN);
+    ret = homa_send(fd, &msg, MSGLEN,(struct sockaddr*)&addr, addr_len, &rpc_id);
+    if (ret < 0) {
+        printf("%d Homa send() failed!", errno);
+        return -1;
     }
 
     return 0;
