@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     bzero(&addr, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = inet_addr("10.0.0.33");    // server's id
+    addr.sin_addr.s_addr = inet_addr("10.0.0.33");    // server's ip
     size_t addr_len = sizeof(addr);
     
     char msg[HOMA_MAX_MESSAGE_LENGTH];
