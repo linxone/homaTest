@@ -54,7 +54,7 @@ int main()
     while (1) {
         
         uint64_t id = 0;
-        len = homa_recv(fd, buf, 1000000, HOMA_RECV_REQUEST, 
+        len = homa_recv(fd, buf, HOMA_MAX_MESSAGE_LENGTH, HOMA_RECV_REQUEST, 
                     (struct sockaddr *)&src, &src_len, &id, NULL);
         if (len < 0) {
             printf("Homa recv() failed!\n");
