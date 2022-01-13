@@ -53,6 +53,6 @@ int main(int argc, char *argv[])
         printf("%d Homa send() failed!", errno);
         return -1;
     }
-
+    sleep(1);
     return 0;
 }
